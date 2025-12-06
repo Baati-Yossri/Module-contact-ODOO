@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="contact_report_template">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2>Liste des contacts</h2>
+                <table class="table table-sm mt16">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Catégorie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="contact">
+                            <tr>
+                                <td><span t-esc="contact.name"/></td>
+                                <td><span t-esc="contact.email"/></td>
+                                <td><span t-esc="contact.phone"/></td>
+                                <td><span t-esc="contact.category_id.name or ''"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <t t-if="docs">
+                    <h3 t-if="docs[0].related_contact_ids">Relations</h3>
+                    <ul>
+                        <t t-foreach="docs" t-as="contact">
+                            <li>
+                                <strong t-esc="contact.name"/>:
+                                <span t-esc="', '.join(contact.related_contact_ids.mapped('name'))"/>
+                            </li>
+                        </t>
+                    </ul>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <report
+        id="action_report_contacts"
+        model="mon_module.contact"
+        string="Contacts"
+        report_type="qweb-pdf"
+        file="mon_module.contact_report_template"
+        name="mon_module.contact_report_template"
+    />
+</odoo>
