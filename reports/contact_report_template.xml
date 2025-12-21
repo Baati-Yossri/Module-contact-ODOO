@@ -1,0 +1,30 @@
+<odoo>
+  <template id="report_mon_module_contacts_pdf">
+    <t t-call="web.external_layout">
+      <div class="page">
+        <h2>Liste des contacts</h2>
+
+        <table class="table table-sm o_main_table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Catégorie</th>
+            </tr>
+          </thead>
+          <tbody>
+            <t t-foreach="docs" t-as="c">
+              <tr>
+                <td><span t-esc="c.name"/></td>
+                <td><span t-esc="c.email or ''"/></td>
+                <td><span t-esc="c.phone or ''"/></td>
+                <td><span t-esc="c.category_id.name if c.category_id else ''"/></td>
+              </tr>
+            </t>
+          </tbody>
+        </table>
+      </div>
+    </t>
+  </template>
+</odoo>

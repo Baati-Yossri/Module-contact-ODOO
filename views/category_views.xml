@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Menu racine -->
+    <menuitem id="menu_mon_module_root"
+              name="Mon Module"
+              sequence="10"
+              web_icon="mon_module,static/description/icon.png"/>
+
+    <!-- ===== Vues Category ===== -->
+    <record id="view_category_list" model="ir.ui.view">
+        <field name="name">mon_module.category.list</field>
+        <field name="model">mon_module.category</field>
+        <field name="arch" type="xml">
+            <list string="Catégories">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="contact_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_category_form" model="ir.ui.view">
+        <field name="name">mon_module.category.form</field>
+        <field name="model">mon_module.category</field>
+        <field name="arch" type="xml">
+            <form string="Catégorie">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="color"/>
+                        <field name="active"/>
+                        <field name="contact_count" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Contacts">
+                            <field name="contact_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================= KANBAN VIEW (Odoo 19 CORRECT) ================= -->
+    <record id="view_category_kanban" model="ir.ui.view">
+        <field name="name">mon_module.category.kanban</field>
+        <field name="model">mon_module.category</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="contact_count"/>
+                <field name="active"/>
+
+                <templates>
+                    <!-- OBLIGATOIRE en Odoo 19 -->
+                    <t t-name="card">
+                        <div class="o_kanban_card">
+                            <div class="o_kanban_card_header">
+                                <strong>
+                                    <t t-esc="record.name.value"/>
+                                </strong>
+                            </div>
+
+                            <div class="o_kanban_card_body">
+                                <div>
+                                    Contacts :
+                                    <t t-esc="record.contact_count.value"/>
+                                </div>
+
+                                <t t-if="!record.active.value">
+                                    <span style="color:red;">(Archivée)</span>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+      
+    <!-- Action Catégories -->
+    <record id="action_category" model="ir.actions.act_window">
+        <field name="name">Catégories</field>
+        <field name="res_model">mon_module.category</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <!-- Menu Catégories -->
+    <menuitem id="menu_category"
+              name="Catégories"
+              parent="menu_mon_module_root"
+              action="action_category"
+              sequence="30"/>
+
+</odoo>

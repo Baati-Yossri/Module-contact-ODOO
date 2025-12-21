@@ -1,2 +1,2 @@
 from . import contact
-from . import contact_report
+from . import category

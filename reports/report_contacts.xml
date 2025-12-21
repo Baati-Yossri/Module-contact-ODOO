@@ -1,0 +1,27 @@
+<odoo>
+    <record id="report_contacts_pdf" model="ir.actions.report">
+        <field name="name">Contacts (PDF)</field>
+        <field name="model">mon_module.contact</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mon_module.report_contacts_template</field>
+        <field name="report_file">mon_module.report_contacts_template</field>
+
+        <!-- ✅ LIGNE CRUCIALE -->
+        <field name="binding_model_id" ref="model_mon_module_contact"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_contacts_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <h2>Contact : <t t-esc="o.name"/></h2>
+                    <p><strong>Email :</strong> <t t-esc="o.email or ''"/></p>
+                    <p><strong>Téléphone :</strong> <t t-esc="o.phone or ''"/></p>
+                    <p><strong>Catégorie :</strong> <t t-esc="o.category_id.name or ''"/></p>
+                    <p><strong>Adresse :</strong> <t t-esc="o.address or ''"/></p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

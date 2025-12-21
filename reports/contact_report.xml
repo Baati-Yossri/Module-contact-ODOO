@@ -1,0 +1,13 @@
+<odoo>
+  <record id="action_report_mon_module_contacts" model="ir.actions.report">
+    <field name="name">Rapport Contacts</field>
+    <field name="model">mon_module.contact</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">mon_module.report_mon_module_contacts_pdf</field>
+    <field name="report_file">mon_module.report_mon_module_contacts_pdf</field>
+
+    <!-- IMPORTANT: binding_model_id doit pointer vers ton modèle -->
+    <field name="binding_model_id" ref="model_mon_module_contact"/>
+    <field name="binding_type">report</field>
+  </record>
+</odoo>

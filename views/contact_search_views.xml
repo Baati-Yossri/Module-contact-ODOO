@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_contact_search" model="ir.ui.view">
+        <field name="name">mon_module.contact.search</field>
+        <field name="model">mon_module.contact</field>
+        <field name="arch" type="xml">
+            <search string="Contacts">
+                <!-- Recherche -->
+                <field name="name"/>
+                <field name="email"/>
+                <field name="category_id"/>
+
+                <!-- Filtres simples (safe) -->
+                <filter string="Actifs" name="active_true" domain="[('active','=',True)]"/>
+                <filter string="Archivés" name="active_false" domain="[('active','=',False)]"/>
+
+                <filter string="Avec catégorie" name="has_category" domain="[('category_id','!=',False)]"/>
+                <filter string="Sans catégorie" name="no_category" domain="[('category_id','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+</odoo>

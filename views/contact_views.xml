@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Vue en liste pour les contacts -->
-    <record id="view_contact_tree" model="ir.ui.view">
-        <field name="name">mon_module.contact.tree</field>
+
+    <!-- ================= LIST VIEW ================= -->
+    <record id="view_contact_list" model="ir.ui.view">
+        <field name="name">mon_module.contact.list</field>
         <field name="model">mon_module.contact</field>
         <field name="arch" type="xml">
             <list string="Contacts">
-                <control>
-                    <button name="action_print_contacts" type="object" string="Exporter PDF" class="oe_highlight"/>
-                </control>
                 <field name="name"/>
                 <field name="email"/>
                 <field name="phone"/>
+                <field name="address"/>
                 <field name="category_id"/>
+                <field name="active"/>
             </list>
         </field>
     </record>
 
-    <!-- Vue formulaire pour les contacts -->
+    <!-- ================= FORM VIEW ================= -->
     <record id="view_contact_form" model="ir.ui.view">
         <field name="name">mon_module.contact.form</field>
         <field name="model">mon_module.contact</field>
@@ -30,59 +30,32 @@
                         <field name="phone"/>
                         <field name="address"/>
                         <field name="category_id"/>
+                        <field name="active"/>
                     </group>
-                    <group string="Relations">
-                        <field name="related_contact_ids" widget="many2many_tags" options="{'no_create': 1}"/>
-                    </group>
+
+                    <notebook>
+                        <page string="Relations">
+                            <field name="related_contact_ids" widget="many2many_tags"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
 
-    <!-- Action pour ouvrir les vues contact -->
+    <!-- ================= ACTION ================= -->
     <record id="action_contact" model="ir.actions.act_window">
         <field name="name">Contacts</field>
         <field name="res_model">mon_module.contact</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_contact_search"/>
     </record>
 
-    <!-- Menu principal pour la gestion des contacts -->
-    <menuitem id="menu_mon_module_root" name="Gestion Contacts" sequence="10"/>
-    <!-- Menu pour accéder aux contacts -->
-    <menuitem id="menu_mon_module_contacts" name="Contacts" parent="menu_mon_module_root" action="action_contact" sequence="10"/>
+    <!-- ================= MENU ================= -->
+    <menuitem id="menu_contact"
+              name="Contacts"
+              parent="menu_mon_module_root"
+              action="action_contact"
+              sequence="20"/>
 
-    <!-- Vues pour les catégories de contacts -->
-    <record id="view_contact_category_tree" model="ir.ui.view">
-        <field name="name">mon_module.contact.category.tree</field>
-        <field name="model">mon_module.contact.category</field>
-        <field name="arch" type="xml">
-            <list string="Catégories">
-                <field name="name"/>
-                <field name="description"/>
-            </list>
-        </field>
-    </record>
-
-    <record id="view_contact_category_form" model="ir.ui.view">
-        <field name="name">mon_module.contact.category.form</field>
-        <field name="model">mon_module.contact.category</field>
-        <field name="arch" type="xml">
-            <form string="Catégorie">
-                <sheet>
-                    <group>
-                        <field name="name"/>
-                        <field name="description"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="action_contact_category" model="ir.actions.act_window">
-        <field name="name">Catégories</field>
-        <field name="res_model">mon_module.contact.category</field>
-        <field name="view_mode">list,form</field>
-    </record>
-
-    <menuitem id="menu_mon_module_categories" name="Catégories" parent="menu_mon_module_root" action="action_contact_category" sequence="20"/>
 </odoo>
